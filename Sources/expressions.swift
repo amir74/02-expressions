@@ -1,9 +1,15 @@
 import LogicKit
 
+// n in |N
+// --------
+// n in Nat
 func constant (_ n : Int) -> Term {
   return Value (n)
 }
 
+// l, r in Nat
+// ------------
+// l + r in Nat
 func plus (_ lhs : Term, _ rhs : Term) -> Map {
   return [
     "op"  : Value ("+"),
@@ -12,6 +18,9 @@ func plus (_ lhs : Term, _ rhs : Term) -> Map {
   ]
 }
 
+// l, r in Nat, l >= r
+// -------------------
+// l - r in Nat
 func minus (_ lhs : Term, _ rhs : Term) -> Map {
   return [
     "op"  : Value ("-"),
@@ -20,10 +29,19 @@ func minus (_ lhs : Term, _ rhs : Term) -> Map {
   ]
 }
 
+// l, r in Nat
+// --------------
+// l >= r in Bool
+
+// l, r in Nat
+// --------------
+// l <= r in Bool
+
+
 // Addition on naturals:
-// l -> lv, r -> rv
-// -------------------
-// l + r -> lv +Nat rv
+// l -N-> lv, r -N-> rv
+// ---------------------
+// l + r -N-> lv +Nat rv
 //
 // Subtraction on naturals:
 // l -> lv, r -> rv, lv >= rv
@@ -68,3 +86,61 @@ func eval (_ input: Term, _ output: Term) -> Goal {
       }
     })
 }
+
+// # Abstract Syntax
+
+// ---------
+// true in B
+// ugly: func True () -> Term {
+//   return Value (true)
+// }
+let True = Value (true)
+
+// ----------
+// false in B
+let False = Value (false)
+
+// b in B
+// ------------
+// not (b) in B
+func not (_ t : Term) -> Map {
+  return [
+    "op": Value ("not"),
+    "what": t,
+  ]
+}
+
+// l, r in B
+// ------------
+// l and r in B
+func and (_ lhs : Term, _ rhs : Term) -> Map {
+  return [
+    "op": Value ("and"),
+    "lhs": lhs,
+    "rhs": rhs,
+  ]
+}
+
+// l, r in B
+// -----------
+// l or r in B
+func or (_ lhs : Term, _ rhs : Term) -> Map {
+  return [
+    "op": Value ("or"),
+    "lhs": lhs,
+    "rhs": rhs,
+  ]
+}
+
+// l, r in B
+// ----------------
+// l implies r in B
+func implies (_ lhs : Term, _ rhs : Term) -> Map {
+  return [
+    "op": Value ("implies"),
+    "lhs": lhs,
+    "rhs": rhs,
+  ]
+}
+
+// # Semantics
